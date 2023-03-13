@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Video;
+use App\Models\User;
 
 class Channel extends Model
 {
@@ -15,5 +16,12 @@ class Channel extends Model
     public function videos()
     {
         return $this->hasMany(Video::class);
+    }
+
+    // обратное отношение один к одному
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+        // return $this->belongsTo(User::class, 'id', 'user_id');
     }
 }
