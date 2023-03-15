@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 
 class CategorySeeder extends Seeder
 {
@@ -13,17 +14,19 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $arrCategoryList = [];
-        foreach( range(1, 3) AS $intI ){
+        Category::factory()->count(10)->create();
 
-            $arrCategoryList[] = [
-                'name' => 'arrCategoryList'.$intI,
-            ];
-        }
+        // $arrCategoryList = [];
+        // foreach( range(1, 3) AS $intI ){
+
+        //     $arrCategoryList[] = [
+        //         'name' => 'arrCategoryList'.$intI,
+        //     ];
+        // }
         
-        if(!empty($arrCategoryList))
-        {
-            DB::table('categories')->insert($arrCategoryList);
-        }
+        // if(!empty($arrCategoryList))
+        // {
+        //     DB::table('categories')->insert($arrCategoryList);
+        // }
     }
 }
