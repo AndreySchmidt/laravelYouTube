@@ -23,7 +23,7 @@ class CategoryVideoSeeder extends Seeder
             ];
         }
 
-        if(!empty($arrCategoryList))
+        if(!empty($arrCategoryVideoPivotList))
         {
             DB::table('category_video')->insert($arrCategoryVideoPivotList);
         }

@@ -17,10 +17,10 @@ return new class extends Migration
         // делаю таблицу пивот для связи категорий и видео
         Schema::create('category_video', function (Blueprint $table) {
 
-            $table->id();
+            // $table->id();
 
             // первичный ключ, состоящий из двух столбцов
-            // $table->primary(['category_id', 'video_id']);
+            $table->primary(['category_id', 'video_id']);
 
             // создать столбец foreignIdFor и навесить внешний ключ на нее, с id который есть во внешней таблице constrained
             $table->foreignIdFor(Category::class)->constrained();
