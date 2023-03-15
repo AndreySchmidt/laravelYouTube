@@ -14,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::get();
+        return Category::with('videos')->get();
         // return Category::all();
         // return DB::table('categories')->get();
     }
@@ -37,7 +37,7 @@ class CategoryController extends Controller
     
     public function show(Category $category)
     {
-        return $category;
+        return $category->load('videos');
     }
 
     // /**
