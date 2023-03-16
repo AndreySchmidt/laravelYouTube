@@ -35,4 +35,12 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    public function withoutTimestamps(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'created_at' => null,
+            'updated_at' => null,
+        ]);
+    }
 }
