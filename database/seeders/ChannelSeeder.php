@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Channel;
 use App\Models\User;
-use Illuminate\Database\Seeder;
+use App\Models\Video;
+use App\Models\Channel;
 
 // use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ChannelSeeder extends Seeder
@@ -20,10 +21,11 @@ class ChannelSeeder extends Seeder
         // Channel::factory()->count(5)->create();
 
         // обратное отношение один к одному
-        Channel::factory()->for(User::factory())->create();
+        // Channel::factory()->for(User::factory())->create();
+        
         // обратное отношение один к одному с магических методом
         // (который должен быть в модели канала по работе с пользователем) с переопределением полей с помощью ассоц массивов
-        Channel::factory()->forUser(['name'=>'User Name'])->create(['name'=>'Name Channel Somename']);
+        // Channel::factory()->forUser(['name'=>'User Name'])->create(['name'=>'Name Channel Somename']);
 
 
     //     $arrChannelList = [];
@@ -38,5 +40,13 @@ class ChannelSeeder extends Seeder
     //     {
     //         DB::table('channels')->insert($arrChannelList);
     //     }
+
+
+
+        // Один-ко-Многим
+        // создать канал + пользователя + связать их + создать три видео на канале
+        // на модели канала должен быть метод videos он будет вызван для создания видео к каналу
+        Channel::factory()->forUser()->has(Video::factory(3))->create();
+
     }
 }
