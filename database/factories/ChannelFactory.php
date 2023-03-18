@@ -21,7 +21,10 @@ class ChannelFactory extends Factory
     {
         return [
             'name' => ucfirst($this->faker->words(mt_rand(1, 2), true)),
+            // вытащить из базы одного из имеющихся там пользователей
             'user_id' => User::inRandomOrder()->first()->id,
+            // а можно создать на лету пользователя и присвоить его id в поле user_id
+            // 'user_id' => User::factory(),
         ];
     }
 }

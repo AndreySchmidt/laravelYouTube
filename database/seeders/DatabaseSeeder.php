@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+// use App\Models\User;
+// use App\Models\Video;
+// use App\Models\Channel;
+// use App\Models\Category;
 use Illuminate\Database\Seeder;
 // use Illuminate\Support\Facades\DB;
 
@@ -30,7 +34,18 @@ class DatabaseSeeder extends Seeder
             ChannelSeeder::class,
             VideoSeeder::class,
             CategorySeeder::class,
-            // CategoryVideoSeeder::class,
+            // ----------- CategoryVideoSeeder::class,
         ]);
+
+
+        // другой вариант работы с сидером
+        // User::factory(2)->has(// создать два пользователя
+        //     Channel::factory()->has(// каждому пользователю канал
+        //         Video::factory(3)->has(// каждому каналу 3 видео
+        //             Category::factory(3)// каждому видео 3 категории
+        //         )
+        //     )
+        // )->create();
+
     }
 }
