@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 // use Illuminate\Http\Request;
+use App\Enums\Period;
 use App\Models\Video;
 
 class VideoController extends Controller
@@ -70,17 +71,25 @@ class VideoController extends Controller
         // }
 
         // рефакторинг свитча через матч
-        $arrVideoList = match(request('period'))
-        {
-            'year' => Video::where('created_at', '>=', now()->startOfYear())->get(),
-            'month' => Video::where('created_at', '>=', now()->startOfMonth())->get(),
-            'week' => Video::where('created_at', '>=', now()->startOfWeek())->get(),
-            'day' => Video::where('created_at', '>=', now()->startOfDay())->get(),
-            'hour' => Video::where('created_at', '>=', now()->startOfHour())->get(),
-            default => Video::with('channel', 'categories')->get(),
-        };
+        // $arrVideoList = match(request('period'))
+        // {
+        //     'year' => Video::where('created_at', '>=', now()->startOfYear())->get(),
+        //     'month' => Video::where('created_at', '>=', now()->startOfMonth())->get(),
+        //     'week' => Video::where('created_at', '>=', now()->startOfWeek())->get(),
+        //     'day' => Video::where('created_at', '>=', now()->startOfDay())->get(),
+        //     'hour' => Video::where('created_at', '>=', now()->startOfHour())->get(),
+        //     default => Video::with('channel', 'categories')->get(),
+        // };
 
-        return $arrVideoList;
+        // return $arrVideoList;
+
+        // рефакторинг match
+        // tryFrom вместо from ибо период может быть не указан http://localhost/api/videos?period=week
+        $objPeriod = Period::tryFrom(request('period'));
+        
+        return $objPeriod
+                ? Video::where('created_at', '>=', $objPeriod->date())->get()
+                : Video::with('channel', 'categories')->get();
     }
 
     public function show(Video $video)
