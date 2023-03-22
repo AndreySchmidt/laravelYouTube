@@ -59,15 +59,26 @@ class VideoController extends Controller
         //     return $arrVideoList[$strPeriod];
         // }
 
-        switch (request('period'))
+        // switch (request('period'))
+        // {
+        //     case 'year': $arrVideoList = Video::where('created_at', '>=', now()->startOfYear())->get(); break;
+        //     case 'month': $arrVideoList = Video::where('created_at', '>=', now()->startOfMonth())->get(); break;
+        //     case 'week': $arrVideoList = Video::where('created_at', '>=', now()->startOfWeek())->get(); break;
+        //     case 'day': $arrVideoList = Video::where('created_at', '>=', now()->startOfDay())->get(); break;
+        //     case 'hour': $arrVideoList = Video::where('created_at', '>=', now()->startOfHour())->get(); break;
+        //     default: $arrVideoList = Video::with('channel', 'categories')->get(); break;
+        // }
+
+        // рефакторинг свитча через матч
+        $arrVideoList = match(request('period'))
         {
-            case 'year': $arrVideoList = Video::where('created_at', '>=', now()->startOfYear())->get(); break;
-            case 'month': $arrVideoList = Video::where('created_at', '>=', now()->startOfMonth())->get(); break;
-            case 'week': $arrVideoList = Video::where('created_at', '>=', now()->startOfWeek())->get(); break;
-            case 'day': $arrVideoList = Video::where('created_at', '>=', now()->startOfDay())->get(); break;
-            case 'hour': $arrVideoList = Video::where('created_at', '>=', now()->startOfHour())->get(); break;
-            default: $arrVideoList = Video::with('channel', 'categories')->get(); break;
-        }
+            'year' => Video::where('created_at', '>=', now()->startOfYear())->get(),
+            'month' => Video::where('created_at', '>=', now()->startOfMonth())->get(),
+            'week' => Video::where('created_at', '>=', now()->startOfWeek())->get(),
+            'day' => Video::where('created_at', '>=', now()->startOfDay())->get(),
+            'hour' => Video::where('created_at', '>=', now()->startOfHour())->get(),
+            default => Video::with('channel', 'categories')->get(),
+        };
 
         return $arrVideoList;
     }
