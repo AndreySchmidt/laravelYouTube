@@ -16,42 +16,65 @@ class CategoryVideoSeeder extends Seeder
      * ./vendor/bin/sail artisan db:seed --class CategoryVideoSeeder
      */
 
-    public function run(): void
+    public function run(): void // верну дурацкий ватиант в с решением лоб
     {
-        // // беру все id категории
-        $categoryIds = Category::pluck('id');
-        // беру все id видео
-        $videoIds = Video::pluck('id');
+        $arrCategoryVideoPivotList = [];
 
+        foreach( range(1, 3) AS $intI ){
 
-        // так как $videoIds за пределами области видимости функции, то передаем её туда use ($videoIds) 
-        // use предоставляет даступ к переменной за пределами тела функции, которую не передали как аргумент
-        $categoryVideoPivotList = $categoryIds->map(function(int $id) use ($videoIds) {
-            return [
-                'category_id' => $id,
-                'video_id' => $videoIds->random(),
-            ];
-        });
-
-        // можно сократить с помощью стрелочной функции и не писать use он сам подтянет скоуп и найдет $videoIds наверху
-        // $categoryVideoPivotList = $categoryIds->map(fn (int $id) =>  ['category_id' => $id, 'video_id' => $videoIds->random(),]);
-
-
-    // })->dd(); хитрый dd() преобразовал объект коллекции в массив (если не отдельной функцией его запускать), но на самом деле там объект
-    // , а в DB::table('category_video')->insert($categoryVideoPivotList); надо пихать именно массив или ошибку выдает
-    // перед передачей данных на запись в БД, преобразую объект коллекции типа (Illuminate\Support\Collection) в массив методом ->all()
-    // (->insert($categoryVideoPivotList->all());) для тех, кто в танке -- ->all() преобразует объект коллекции в массив,
-    // а ->flatten() многоуровневую коллекцию (с вложенными объектами) в одноуровневую
-    // (флэт короче, которому можно передать количество уровней, которые надо развернуть в плоский объект, по умолчанию все вложенные выводит в один уровень)
-    // так же есть метод ->flatMap() среднее между ->map() и ->flatten(), но он уберает только один уровень вложенности (двухмерный объект в одномерный)
-        
-        if(!empty($categoryVideoPivotList))
-        {
-            // dd($categoryVideoPivotList->all());
-            DB::table('category_video')->insert($categoryVideoPivotList->all());
+            // не забывай, что в других сидерах есть втыкание связей, которые создают конфликт из-за формирование примари в пивоте
+            // $arrCategoryVideoPivotList[] = [
+            //     'category_id' => $intI,
+            //     'video_id' => $intI,
+            // ];
         }
 
+        if(!empty($arrCategoryVideoPivotList))
+        {
+            DB::table('category_video')->insert($arrCategoryVideoPivotList);
+        }
     }
+
+    // public function run(): void
+    // {
+    //     // Всегда делай id в таблице )) тут его нет и могут быть ошибки при попытке встевить в таблицу дублирующиеся строки
+    //     // либо id в таблицу, либо делать проверку перед вставкой, либо migration:refresh
+
+    //     // // беру все id категории
+    //     $categoryIds = Category::pluck('id');
+    //     // беру все id видео
+    //     $videoIds = Video::pluck('id');
+
+
+    //     // так как $videoIds за пределами области видимости функции, то передаем её туда use ($videoIds) 
+    //     // use предоставляет даступ к переменной за пределами тела функции, которую не передали как аргумент
+    //     $categoryVideoPivotList = $categoryIds->map(function(int $id) use ($videoIds) {
+    //         return [
+    //             'category_id' => $id,
+    //             'video_id' => $videoIds->random(),
+    //         ];
+    //     });
+
+    //     // можно сократить с помощью стрелочной функции и не писать use он сам подтянет скоуп и найдет $videoIds наверху
+    //     // $categoryVideoPivotList = $categoryIds->map(fn (int $id) =>  ['category_id' => $id, 'video_id' => $videoIds->random(),]);
+
+
+    //     // })->dd(); хитрый dd() преобразовал объект коллекции в массив (если не отдельной функцией его запускать), но на самом деле там объект
+    //     // , а в DB::table('category_video')->insert($categoryVideoPivotList); надо пихать именно массив или ошибку выдает
+    //     // перед передачей данных на запись в БД, преобразую объект коллекции типа (Illuminate\Support\Collection) в массив методом ->all()
+    //     // (->insert($categoryVideoPivotList->all());) для тех, кто в танке -- ->all() преобразует объект коллекции в массив,
+    //     // а ->flatten() многоуровневую коллекцию (с вложенными объектами) в одноуровневую
+    //     // (флэт короче, которому можно передать количество уровней, которые надо развернуть в плоский объект, по умолчанию все вложенные выводит в один уровень)
+    //     // так же есть метод ->flatMap() среднее между ->map() и ->flatten(), но он уберает только один уровень вложенности (двухмерный объект в одномерный)
+        
+    //     if(!empty($categoryVideoPivotList))
+    //     {
+    //         // dd($categoryVideoPivotList->all());
+    //         DB::table('category_video')->insert($categoryVideoPivotList->all());
+    //     }
+    
+    // }
+
 
     // public function run(): void
     // {
