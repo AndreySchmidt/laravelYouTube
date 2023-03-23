@@ -10,6 +10,21 @@ class VideoController extends Controller
 {
     public function index()
     {
+        $objPeriod = Period::tryFrom(request('period'));
+        
+        return Video::fromPeriod($objPeriod)
+        //->search метод модели scopeSearch 
+        ->search(request('text'))
+        ->get();
+    }
+
+    public function show(Video $video)
+    {
+        return $video->load('channel', 'categories');
+    }
+
+    public function tmp_index()
+    {
         // верну количество записей видео относительно времени их добавления
         // return [
         //     'year' => Video::with('channel', 'categories')
@@ -96,7 +111,7 @@ class VideoController extends Controller
 
         // методы моделей, которые начинаются со слова scope при вызове обращаться fromPeriod() 
         return Video::fromPeriod($objPeriod)
-        
+
         // добавлю поиск по заголовку или описанию
         // ->where('title', '=', request('text')) если строгое равенство, то можно его не писать
         // ->where('title', request('text'))
@@ -110,8 +125,4 @@ class VideoController extends Controller
         ->get();
     }
 
-    public function show(Video $video)
-    {
-        return $video->load('channel', 'categories');
-    }
 }

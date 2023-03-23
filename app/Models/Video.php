@@ -39,4 +39,16 @@ class Video extends Model
         // если период не указан, то вернем объект конструктора запросов без ограничений
         return $period ? $query->where('created_at', '>=', $period->date()) : $query;
     }
+
+    public function scopeSearch($query, ?string $text)
+    {
+        // если период публикации видео был указан,
+        // то на объекте конструктора запросов указывает ограничение выборки по столбцу created_at
+        // если период не указан, то вернем объект конструктора запросов без ограничений
+        return $query->where(function ($query) use ($text)
+                {
+                    $query->where('title', 'like', "%$text%")
+                    ->orWhere('description', 'like', "%$text%");
+                });
+    }
 }
