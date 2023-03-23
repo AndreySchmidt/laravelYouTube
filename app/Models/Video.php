@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Period;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,5 +24,19 @@ class Video extends Model
         // многие ко многим (короткая версия потому, что следую соглашению по именованию пивота)
         return $this->belongsToMany(Category::class);
         // $this->belongsToMany(Category::class, 'category_video', 'video_id', 'category_id');
+    }
+
+    // методы моделей, которые начинаются со слова scope интерпретируются особым образом
+    // в них есть ограничение при запросах в БД 
+    // при вызове обращаться fromPeriod() 
+    // они автоматически первым параметром принимают объект конструктора запросов $query
+    // ограничим выорку по столбцу created_at
+    // ?Period $period параметр период не обязателен
+    public function scopeFromPeriod($query, ?Period $period)
+    {
+        // если период публикации видео был указан,
+        // то на объекте конструктора запросов указывает ограничение выборки по столбцу created_at
+        // если период не указан, то вернем объект конструктора запросов без ограничений
+        return $period ? $query->where('created_at', '>=', $period->date()) : $query;
     }
 }

@@ -85,11 +85,16 @@ class VideoController extends Controller
 
         // рефакторинг match
         // tryFrom вместо from ибо период может быть не указан http://localhost/api/videos?period=week
-        $objPeriod = Period::tryFrom(request('period'));
+        // $objPeriod = Period::tryFrom(request('period'));
         
-        return $objPeriod
-                ? Video::where('created_at', '>=', $objPeriod->date())->get()
-                : Video::with('channel', 'categories')->get();
+        // return $objPeriod
+        //         ? Video::where('created_at', '>=', $objPeriod->date())->get()
+        //         : Video::with('channel', 'categories')->get();
+
+
+        $objPeriod = Period::tryFrom(request('period'));
+        // методы моделей, которые начинаются со слова scope при вызове обращаться fromPeriod() 
+        return Video::fromPeriod($objPeriod)->get();
     }
 
     public function show(Video $video)
