@@ -27,6 +27,8 @@ class VideoFactory extends Factory
 
         return [
             'title' => ucfirst($this->faker->words(mt_rand(1, 2), true)),
+            // true если одной строкой 4 предложения false - в виде массива
+            'description' => $this->faker->sentences(4, true),
             'channel_id' => Channel::inRandomOrder()->first()->id,
             // сгенерирую даты фейкером
             'created_at' => $strDate,

@@ -93,8 +93,21 @@ class VideoController extends Controller
 
 
         $objPeriod = Period::tryFrom(request('period'));
+
         // методы моделей, которые начинаются со слова scope при вызове обращаться fromPeriod() 
-        return Video::fromPeriod($objPeriod)->get();
+        return Video::fromPeriod($objPeriod)
+        
+        // добавлю поиск по заголовку или описанию
+        // ->where('title', '=', request('text')) если строгое равенство, то можно его не писать
+        // ->where('title', request('text'))
+
+        // для добавления скобок в запрос в БД надо сгруппировать ->where ->orWhere
+        ->where(function ($query)
+        {
+            $query->where('title', 'like', '%'.request('text').'%')
+            ->orWhere('description', 'like', '%'.request('text').'%');
+        })
+        ->get();
     }
 
     public function show(Video $video)
