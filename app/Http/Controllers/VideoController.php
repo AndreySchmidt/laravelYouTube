@@ -15,6 +15,13 @@ class VideoController extends Controller
         return Video::fromPeriod($objPeriod)
         //->search метод модели scopeSearch 
         ->search(request('text'))
+        ->limit(request('limit'))
+        // ->take(request('limit'))// альтернатива ->limit()
+        // ->latest()// order by, desc по created_at
+        // ->oldest('id')// order by, asc по id
+        // ->orderBy('id', 'desc')// классический вариант
+        // если в реквесте нет аргумента, можно указать по значение дефолту  request('order', 'asc') 
+        ->orderBy(request('sort', 'created_at'), request('order', 'asc'))
         ->get();
     }
 
