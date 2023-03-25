@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // создать и записать в БД
-        User::factory()->count(3)->create();
+        User::factory(5)->create();
 
         // создать НО НЕ записать в БД
         // User::factory()->count(3)->make();

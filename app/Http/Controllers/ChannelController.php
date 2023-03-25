@@ -9,20 +9,17 @@ class ChannelController extends Controller
 {
     public function index()
     {
-        // получить список каналов
-        // return Channel::get();
+        return Channel::with(request('with', []))
+        ->search(request('name'))
+        ->orderBy(request('sort', 'name'), request('order', 'asc'))
+        ->simplePaginate(request('limit'))
+        ->withQueryString();
 
-        // получить список каналов со списком видео по каналу with('videos') (videos - метод в модели) и пользовательскими данными
-        // можно так with(['user', 'videos']) или так with('user', 'videos')
-        return Channel::with(['user', 'videos'])->get();
+        // return Channel::with(['user', 'videos'])->get();
     }
 
     public function show(Channel $channel)
     {
-        // получить канал
-        // return $channel;
-
-        // получить канал со списком видео по каналу load('videos') (videos - метод в модели) и пользовательскими данными
-        return $channel->load(['user', 'videos']);
+        return $channel->load(request('with', []));
     }
 }

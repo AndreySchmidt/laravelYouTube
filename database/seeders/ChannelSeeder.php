@@ -18,7 +18,11 @@ class ChannelSeeder extends Seeder
      */
     public function run(): void
     {
-        // Channel::factory()->count(5)->create();
+        Channel::factory(5)
+        // для того чтобы не было проблем с сидированием каналов
+        // (1 канал - один пользователь) надо сидировать равное количество каналов и пользователей (там сделать 5)
+        ->sequence(fn ($sequence) => ['user_id' => $sequence->index + 1])
+        ->create();
 
         // обратное отношение один к одному
         // Channel::factory()->for(User::factory())->create();
@@ -46,7 +50,7 @@ class ChannelSeeder extends Seeder
         // Один-ко-Многим
         // создать канал + пользователя + связать их + создать три видео на канале
         // на модели канала должен быть метод videos он будет вызван для создания видео к каналу
-        Channel::factory()->forUser()->has(Video::factory(3))->create();
+        // Channel::factory()->forUser()->has(Video::factory(3))->create();
 
     }
 }

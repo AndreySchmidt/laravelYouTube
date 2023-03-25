@@ -20,8 +20,10 @@ class ChannelFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => ucfirst($this->faker->words(mt_rand(1, 2), true)),
+            'name' => ucfirst(fake()->words(mt_rand(1, 2), true)),
             // вытащить из базы одного из имеющихся там пользователей
+            // вообще это не корректно потому что у нас отношение один канал к одному пользователю (могут быть забавные эффекты)
+            // решу это в сидере (применю метод переопределения ->sequence())
             'user_id' => User::inRandomOrder()->first()->id,
             // а можно создать на лету пользователя и присвоить его id в поле user_id
             // 'user_id' => User::factory(),

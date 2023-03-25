@@ -15,9 +15,10 @@ class VideoFactory extends Factory
     {
         // $createdAt = $this->createdAt();
 
+        // вместо $this->faker буду писать fake()
         return [
-            'title' => ucfirst($this->faker->words(mt_rand(1, 2), true)),
-            'description' => $this->faker->sentences(mt_rand(1, 3), true),
+            'title' => ucfirst(fake()->words(mt_rand(1, 2), true)),
+            'description' => fake()->sentences(mt_rand(1, 3), true),
             'channel_id' => Channel::inRandomOrder()->first(),
             // сгенерирую даты фейкером (закоментил ибо буду менять это через стейт, вызов в сидере)
             // 'created_at' => $createdAt,
@@ -38,7 +39,7 @@ class VideoFactory extends Factory
         return $this->state(function() use ($period)
         {
             // $period->value получим в виде строки
-            $createdAt = $this->faker->dateTimeBetween("-1 $period->value");
+            $createdAt = fake()->dateTimeBetween("-1 $period->value");
 
             // переопределим в стейте даты создания, обновления
             return [
