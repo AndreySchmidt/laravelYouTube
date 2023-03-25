@@ -11,8 +11,14 @@ class VideoController extends Controller
     public function index()
     {
         $objPeriod = Period::tryFrom(request('period'));
-        
-        return Video::fromPeriod($objPeriod)
+        // точка в реквесте интерпретируется как вложенное отношение ?with[]=channel.user прикрутит к каналу данные пользователя
+        // return Video::with('channel', 'categories')//?with[]=categories&with[]=channel
+        // return Video::with(request('with', ['channel', 'categories']))
+
+        // dd(request('with', []));
+
+        return Video::with(request('with', []))
+        ->fromPeriod($objPeriod)
         //->search метод модели scopeSearch 
         ->search(request('text'))
         ->limit(request('limit'))
@@ -22,12 +28,16 @@ class VideoController extends Controller
         // ->orderBy('id', 'desc')// классический вариант
         // если в реквесте нет аргумента, можно указать по значение дефолту  request('order', 'asc') 
         ->orderBy(request('sort', 'created_at'), request('order', 'asc'))
+        // ->dd()
         ->get();
     }
 
     public function show(Video $video)
     {
-        return $video->load('channel', 'categories');
+        // return $video->load('channel', 'categories');
+        // вместо подгрузки каждый раз канала и категорий, буду читать нужны ли они из реквеста
+        // ?with[]=channel.user&with[]=categories например так
+        return $video->load(request('with', []));
     }
 
     public function tmp_index()
