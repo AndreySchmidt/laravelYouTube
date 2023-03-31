@@ -53,4 +53,13 @@ class User extends Authenticatable
         // return $this->hasOne(Channel::class, 'user_id', 'id');
         return $this->hasOne(Channel::class);
     }
+
+    public function scopeSearch($query, ?string $text)
+    {
+        return $query->where(function ($query) use ($text)
+                {
+                    $query->where('name', 'like', "%$text%")
+                    ->orWhere('email', 'like', "%$text%");
+                });
+    }
 }

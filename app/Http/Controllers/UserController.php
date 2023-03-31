@@ -9,13 +9,21 @@ class UserController extends Controller
 {
     public function index()
     {
+        return User::with(request('with', []))
+        ->search(request('name'))
+        ->orderBy(request('sort', 'name'), request('order', 'asc'))
+        ->simplePaginate(request('limit'))
+        ->withQueryString();
+
+
         // return User::get(); добавлю сразу в модель пользователя как протектед свойство $with
-        return User::with('channel')->get();
+        // return User::with('channel')->get();
     }
 
     public function show(User $user)
     {
-        return $user->load('channel');
+        return $user->load(request('with', []));
+        // return $user->load('channel');
         // return $user; подтягивание канала сделал автоматически через модель пользователя как протектед свойство $with
     }
 }
