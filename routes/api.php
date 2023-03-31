@@ -14,6 +14,9 @@ Route::get('/categories/{category}', [App\Http\Controllers\CategoryController::c
 Route::get('/channels', [App\Http\Controllers\ChannelController::class, 'index']);
 Route::get('/channels/{channel}', [App\Http\Controllers\ChannelController::class, 'show']);
 
+Route::get('/playlists', [App\Http\Controllers\PlaylistController::class, 'index']);
+Route::get('/playlists/{playlist}', [App\Http\Controllers\PlaylistController::class, 'show']);
+
 Route::get('/videos', [App\Http\Controllers\VideoController::class, 'index']);
 Route::get('/videos/{video}', [App\Http\Controllers\VideoController::class, 'show']);
 
