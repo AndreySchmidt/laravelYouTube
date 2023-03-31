@@ -17,4 +17,9 @@ class Category extends Model
         return $this->belongsToMany(Video::class);
         // $this->belongsToMany(Video::class, 'category_video', 'category_id', 'video_id');
     }
+
+    public function scopeSearch($query, ?string $name)
+    {
+        return $query->where('name', 'like', "%$name%");
+    }
 }
