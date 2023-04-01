@@ -3,10 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Video;
+use App\Models\Channel;
 use App\Models\Playlist;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class PlaylistVideoSeeder extends Seeder
 {
@@ -18,26 +19,26 @@ class PlaylistVideoSeeder extends Seeder
     // верну дурацкий ватиант в с решением лоб
     public function run(): void
     {
-        $playlistIds = Playlist::pluck('id');
-        $videoIds = Video::pluck('id');
+        $playlists = Playlist::all();
 
-        $pivotList = $playlistIds->flatMap(
-            fn (int $id) => $this->playlistVideos($id, $this->randomVideoIds($videoIds))
+        $pivotList = $playlists->flatMap(
+            fn (Playlist $playlist) => $this->playlistVideos($playlist, $this->randomVideosFrom($playlist->channel))
         );
 
         DB::table('playlist_video')->insert($pivotList->all());
     }
 
-    private function playlistVideos(int $playlistId, Collection $videoIds):Collection
+    private function playlistVideos(Playlist $playlist, Collection $videos):Collection
     {
-        return $videoIds->map(fn (int $id) => [
-            'playlist_id' => $playlistId,
-            'video_id' => $id,
+        return $videos->map(fn (Video $video) => [
+            'playlist_id' => $playlist->id,
+            'video_id' => $video->id,
+            'channel_id' => $playlist->channel->id,
         ]);
     }
 
-    private function randomVideoIds(Collection $videoIds):Collection
+    private function randomVideosFrom(Channel $channel):Collection
     {
-        return $videoIds->random(mt_rand(1, count($videoIds)));
+        return $channel->videos->random(mt_rand(1, count($channel->videos)));
     }
 }
