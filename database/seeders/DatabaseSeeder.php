@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             VideoSeeder::class,
             CategorySeeder::class,
             CategoryVideoSeeder::class,
+            PlaylistVideoSeeder::class,
         ]);
 
 

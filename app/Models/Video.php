@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Enums\Period;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
 use App\Models\Channel;
 use App\Models\Category;
+use App\Models\Playlist;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Video extends Model
 {
@@ -50,5 +51,10 @@ class Video extends Model
                     $query->where('title', 'like', "%$text%")
                     ->orWhere('description', 'like', "%$text%");
                 });
+    }
+
+    public function playlists()
+    {
+        return $this->belongsToMany(Playlist::class);
     }
 }

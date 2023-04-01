@@ -5,12 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Playlist;
 use App\Models\Video;
 use App\Models\User;
 
 class Channel extends Model
 {
     use HasFactory;
+
+
+    public function playlists()
+    {
+        return $this->hasMany(Playlist::class);
+    }
 
     // один ко многим (у одного канала много видео) получить видео по каналу
     public function videos()
