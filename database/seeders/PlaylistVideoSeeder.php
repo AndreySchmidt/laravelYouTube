@@ -39,6 +39,12 @@ class PlaylistVideoSeeder extends Seeder
 
     private function randomVideosFrom(Channel $channel):Collection
     {
-        return $channel->videos->random(mt_rand(1, count($channel->videos)));
+        // если на канале нет видео, вернем пустую коллекцию (пихать в mt_rand(1, count($channel->videos)) ноль как понятно нельзя)
+        if($channel->videos->isEmpty())
+        {
+            return collect();
+        }
+
+        return $channel->videos->random(mt_rand(1, $channel->videos->count()));
     }
 }
