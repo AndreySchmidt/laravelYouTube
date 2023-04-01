@@ -19,13 +19,20 @@ class PlaylistVideoSeeder extends Seeder
     // верну дурацкий ватиант в с решением лоб
     public function run(): void
     {
-        $playlists = Playlist::all();
+        // $playlists = Playlist::all();
 
-        $pivotList = $playlists->flatMap(
-            fn (Playlist $playlist) => $this->playlistVideos($playlist, $this->randomVideosFrom($playlist->channel))
+        // $pivotList = $playlists->flatMap(
+        //     fn (Playlist $playlist) => $this->playlistVideos($playlist, $this->randomVideosFrom($playlist->channel))
+        // );
+
+        // DB::table('playlist_video')->insert($pivotList->all());
+
+        // запишем короткой версией
+        Playlist::all()->each(
+            function (Playlist $playlist) {
+                $playlist->videos()->saveMany($this->randomVideosFrom($playlist->channel));
+            }
         );
-
-        DB::table('playlist_video')->insert($pivotList->all());
     }
 
     private function playlistVideos(Playlist $playlist, Collection $videos):Collection
