@@ -28,21 +28,27 @@ class PlaylistVideoSeeder extends Seeder
         // DB::table('playlist_video')->insert($pivotList->all());
 
         // запишем короткой версией
+        // Playlist::all()->each(
+        //     function (Playlist $playlist) {
+        //         $playlist->videos()->saveMany($this->randomVideosFrom($playlist->channel));
+        //     }
+        // );
+
+        // запишем еще более короткой версией
         Playlist::all()->each(
-            function (Playlist $playlist) {
-                $playlist->videos()->saveMany($this->randomVideosFrom($playlist->channel));
-            }
+            fn (Playlist $playlist) => $playlist->videos()->saveMany($this->randomVideosFrom($playlist->channel))
         );
     }
 
-    private function playlistVideos(Playlist $playlist, Collection $videos):Collection
-    {
-        return $videos->map(fn (Video $video) => [
-            'playlist_id' => $playlist->id,
-            'video_id' => $video->id,
-            'channel_id' => $playlist->channel->id,
-        ]);
-    }
+    // не использую из-за короткой записи метода run() столбец channel_id тоже больше не нужен, нужно удалить
+    // private function playlistVideos(Playlist $playlist, Collection $videos):Collection
+    // {
+    //     return $videos->map(fn (Video $video) => [
+    //         'playlist_id' => $playlist->id,
+    //         'video_id' => $video->id,
+    //         'channel_id' => $playlist->channel->id,
+    //     ]);
+    // }
 
     private function randomVideosFrom(Channel $channel):Collection
     {
