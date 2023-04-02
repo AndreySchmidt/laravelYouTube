@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Channel;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -25,4 +26,11 @@ class Playlist extends Model
         return $this->belongsToMany(Video::class);
     }
 
+    public function scopeWithRelationships($query, array|string $with)
+    {
+        // усли $with строка, преобразую в массив Arr::wrap($with)
+
+        $relationships = ['channel', 'videos'];
+        return $query->with(array_intersect(Arr::wrap($with), $relationships));
+    }
 }

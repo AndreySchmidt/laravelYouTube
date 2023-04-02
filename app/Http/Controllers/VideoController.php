@@ -10,7 +10,9 @@ class VideoController extends Controller
 {
     public function index()
     {
-        return Video::with(request('with', []))
+        // уберу возможность вытягивать любые связи в реквесте (в модели нужен соответствующий метод)
+        return Video::withRelationships(request('with', []))
+        // return Video::with(request('with', []))
         ->fromPeriod(Period::tryFrom(request('period')))
         ->search(request('text'))
         ->orderBy(request('sort', 'created_at'), request('order', 'desc'))

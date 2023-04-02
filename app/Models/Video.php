@@ -7,6 +7,7 @@ use App\Models\Channel;
 use App\Models\Category;
 use App\Models\Playlist;
 
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -51,6 +52,14 @@ class Video extends Model
                     $query->where('title', 'like', "%$text%")
                     ->orWhere('description', 'like', "%$text%");
                 });
+    }
+
+    public function scopeWithRelationships($query, array|string $with)
+    {
+        // усли $with строка, преобразую в массив Arr::wrap($with)
+
+        $relationships = ['channel', 'playlists', 'categories'];
+        return $query->with(array_intersect(Arr::wrap($with), $relationships));
     }
 
     public function playlists()
