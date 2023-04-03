@@ -7,12 +7,12 @@ use App\Models\Video;
 
 use App\Models\Playlist;
 use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Channel extends Model
 {
     use HasFactory;
+    protected static $relationships = ['videos', 'playlists', 'user'];
 
 
     public function playlists()
@@ -38,11 +38,4 @@ class Channel extends Model
         return $query->where('name', 'like', "%$name%");
     }
 
-    public function scopeWithRelationships($query, array|string $with)
-    {
-        // усли $with строка, преобразую в массив Arr::wrap($with)
-
-        $relationships = ['videos', 'playlists', 'user'];
-        return $query->with(array_intersect(Arr::wrap($with), $relationships));
-    }
 }

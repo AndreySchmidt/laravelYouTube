@@ -14,6 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    protected static $relationships = ['channel'];
 
     //channel - название метода (при выдаче пользователя, будет тянуть отношение канала)
     // protected $with = ['channel'];
@@ -66,9 +67,6 @@ class User extends Authenticatable
 
     public function scopeWithRelationships($query, array|string $with)
     {
-        // усли $with строка, преобразую в массив Arr::wrap($with)
-
-        $relationships = ['channel'];
-        return $query->with(array_intersect(Arr::wrap($with), $relationships));
+        return $query->with(array_intersect(Arr::wrap($with), static::$relationships));
     }
 }
