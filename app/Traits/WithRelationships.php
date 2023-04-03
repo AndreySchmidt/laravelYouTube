@@ -16,7 +16,21 @@ trait WithRelationships
         $valid = collect($with)
         // ->dump()
         ->map(fn (string $with):array => explode('.', $with))
-        ->filter(fn (array $with): bool => in_array($with[0], static::$relationships))
+        // ->filter(fn (array $with): bool => in_array($with[0], static::$relationships))
+        ->filter(function (array $with)
+        {
+            return collect($with)->reduce(function ($model, $withItem)
+            {
+                // dd(new static);
+                if($model && method_exists($model, $withItem) && in_array($withItem, $model::$relationships))
+                {
+                    return $model->$withItem()->getRelated();
+                }
+
+                // new static (ссылка на текущий класс function (->>>>$model<<<-   ) вторым аргументом надо передать начальное значение,
+                // его беру из объекта модели который в данный момент итерирую
+            }, new static);
+        })
         // ->dump()
         ->map(fn (array $with):string => implode('.', $with))
         // ->dump()
