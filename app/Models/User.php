@@ -5,15 +5,16 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Channel;
 use Illuminate\Support\Arr;
+use App\Traits\WithRelationships;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
 
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, WithRelationships;
     protected static $relationships = ['channel'];
 
     //channel - название метода (при выдаче пользователя, будет тянуть отношение канала)
@@ -65,8 +66,9 @@ class User extends Authenticatable
                 });
     }
 
-    public function scopeWithRelationships($query, array|string $with)
-    {
-        return $query->with(array_intersect(Arr::wrap($with), static::$relationships));
-    }
+    // in trait
+    // public function scopeWithRelationships($query, array|string $with)
+    // {
+    //     return $query->with(array_intersect(Arr::wrap($with), static::$relationships));
+    // }
 }

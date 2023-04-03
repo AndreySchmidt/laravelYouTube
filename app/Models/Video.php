@@ -7,7 +7,6 @@ use App\Models\Channel;
 use App\Models\Category;
 use App\Models\Playlist;
 
-use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Video extends Model
