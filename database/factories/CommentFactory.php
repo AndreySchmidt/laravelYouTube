@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,9 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'text' => fake()->sentence(mt_rand(1, 3), true),
+            'user_id' => User::inRandomOrder()->first(),
+            'video_id' => Video::inRandomOrder()->first(),
         ];
     }
 }
