@@ -22,3 +22,6 @@ Route::get('/videos/{video}', [App\Http\Controllers\VideoController::class, 'sho
 
 Route::get('/users', [App\Http\Controllers\UserController::class, 'index']);
 Route::get('/users/{user}', [App\Http\Controllers\UserController::class, 'show']);
+
+Route::get('/comments', [App\Http\Controllers\CommentController::class, 'index']);
+Route::get('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'show']);
