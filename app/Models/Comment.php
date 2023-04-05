@@ -7,6 +7,8 @@ use App\Models\Video;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+// sudo ./vendor/bin/sail artisan tinker
+
 class Comment extends Model
 {
     use HasFactory;
@@ -26,5 +28,10 @@ class Comment extends Model
     public function video()
     {
         return $this->belongsTo(Video::class);
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(static::class, 'parent_id');
     }
 }
