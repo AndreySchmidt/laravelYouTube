@@ -34,4 +34,20 @@ class Comment extends Model
     {
         return $this->hasMany(static::class, 'parent_id');
     }
+
+    private function findRandomCommentToBeParent()
+    {
+        return $this->video->comments()->doesntHave('parent')
+            ->where('id', '<>', $this->id)
+            ->inRandomOrder()->first();
+    }
+
+    // присвоим комменту родителя
+    public function associateParentComment()
+    {
+        // чтобы не было вложенных чейнингов с комментами (оставлю 2 уровня)
+        // if($this->replies->isNotEmpty()) return;
+        if($this->replies()->exists()) return;
+        $this->parent()->associate($this->findRandomCommentToBeParent())->save();
+    }
 }

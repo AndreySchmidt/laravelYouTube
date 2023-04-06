@@ -9,7 +9,7 @@ class CommentController extends Controller
 {
     public function index()
     {
-        return Comment::with('user', 'video')->get();
+        return Comment::with('parent', 'user', 'video')->get();
     }
 
     public function show(Comment $comment)
