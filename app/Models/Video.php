@@ -64,12 +64,12 @@ class Video extends Model
         return $this->belongsToMany(Playlist::class);
     }
 
-    public function createRandomCommentList(int $quantity)
-    {
-        // $comments = Comment::factory($quantity)->create();
-        // $this->comments()->saveMany($comments);
-        // return $comments;
+    // public function createRandomCommentList(int $quantity)
+    // {
+    //     // $comments = Comment::factory($quantity)->create();
+    //     // $this->comments()->saveMany($comments);
+    //     // return $comments;
 
-        return Comment::factory($quantity)->create(['video_id' => $this->id]);
-    }
+    //     return Comment::factory($quantity)->create(['video_id' => $this->id]);
+    // }
 }
