@@ -30,10 +30,10 @@ class Comment extends Model
         return $this->belongsTo(Video::class);
     }
 
-    public function replies()
-    {
-        return $this->hasMany(static::class, 'parent_id');
-    }
+    // public function replies()
+    // {
+    //     return $this->hasMany(static::class, 'parent_id');
+    // }
 
     // private function findRandomCommentToBeParent()
     // {
