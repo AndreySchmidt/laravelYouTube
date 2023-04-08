@@ -13,6 +13,8 @@ class Comment extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function parent()
     {
         // обратное один ко многим .. можно на самого себя, а можно статик использовать (позднее связывание, будет указывать на эту модель)
