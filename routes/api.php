@@ -27,3 +27,4 @@ Route::get('/comments', [App\Http\Controllers\CommentController::class, 'index']
 Route::get('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'show']);
 
 Route::post('/comments', [App\Http\Controllers\CommentController::class, 'store']);
+Route::put('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'update']);

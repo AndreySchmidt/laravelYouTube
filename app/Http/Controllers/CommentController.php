@@ -28,6 +28,15 @@ class CommentController extends Controller
         return Comment::create($attr);
     }
 
+    public function update(Comment $comment, Request $request)
+    {
+        $attr = $request->validate([
+            'text' => 'required|string',
+        ]);
+
+        $comment->fill($attr)->save();
+    }
+
     public function index()
     {
         return Comment::with('parent', 'user', 'video')->get();
