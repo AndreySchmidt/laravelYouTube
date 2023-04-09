@@ -28,3 +28,4 @@ Route::get('/comments/{comment}', [App\Http\Controllers\CommentController::class
 
 Route::post('/comments', [App\Http\Controllers\CommentController::class, 'store']);
 Route::put('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'update']);
+Route::delete('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'destroy']);

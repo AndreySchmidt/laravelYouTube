@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->text('text');
-            // id родительского коммента
-            $table->foreignId('parent_id')->nullable()->references('id')->on('comments');
+            //cascadeOnDelete при удалении парента будет удалять чаилды
+            $table->foreignId('parent_id')->nullable()->references('id')->on('comments')->cascadeOnDelete();
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Video::class)->constrained();
             $table->timestamps();

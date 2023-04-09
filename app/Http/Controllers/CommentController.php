@@ -52,6 +52,12 @@ class CommentController extends Controller
         $comment->fill($attr)->save();
     }
 
+    public function destroy(Comment $comment, Request $request)
+    {
+        throw_if($request->user()->isNot($comment->user), AuthorizationException::class);
+        $comment->delete();
+    }
+
     public function index()
     {
         return Comment::with('parent', 'user', 'video')->get();
