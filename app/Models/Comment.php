@@ -15,6 +15,21 @@ class Comment extends Model
 
     protected $guarded = [];
 
+    // слушатель перед сохранением коммента после create
+    protected static function booted()
+    {
+        static::saving(function (Comment $comment){
+
+            $comment->user_id = $comment->user_id ?: auth()->id();
+
+            // если parent_id передан
+            if($comment->parent_id)
+            {
+                $comment->video_id = Comment::find($comment->parent_id)->video_id;
+            }
+        });
+    }
+
     public function parent()
     {
         // обратное один ко многим .. можно на самого себя, а можно статик использовать (позднее связывание, будет указывать на эту модель)

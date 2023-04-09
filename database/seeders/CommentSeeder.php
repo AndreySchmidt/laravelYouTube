@@ -23,7 +23,8 @@ class CommentSeeder extends Seeder
 
     private function repliesOf(Comment $comment)
     {
-        return Comment::factory(2)->for($comment->video)->for($comment, 'parent')->create();
+        return Comment::factory(2)->for($comment, 'parent')->create();//->for($comment->video) не нужен, потому, что есть метод booted в class Comment
+        // return Comment::factory(2)->for($comment->video)->for($comment, 'parent')->create();
     }
 
     // создать только родительские комменты 

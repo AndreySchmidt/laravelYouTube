@@ -35,6 +35,13 @@ class CommentFactory extends Factory
         ];
     }
 
+    public function reply()//TODO странно, но пока не корректно работает в тинкер
+    {
+        return $this->state(function(){
+            return ['parent_id' => Comment::inRandomOrder()->first() ?: Comment::factory(),];
+        });
+    }
+
     // private function findRandomCommentToBeParent(Comment $comment)
     // {
     //     return $comment->video->comments()->doesntHave('parent')
