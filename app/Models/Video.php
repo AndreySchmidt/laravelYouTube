@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Video extends Model
 {
     use HasFactory;
-    protected static $relationships = ['channel', 'playlists', 'categories'];
+    protected static $relationships = ['channel', 'playlists', 'categories', 'comments'];
 
     // обратное отношеие один ко многим (у одного канала много видео) получить канал по видео
     public function channel()

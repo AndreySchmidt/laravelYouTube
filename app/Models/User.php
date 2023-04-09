@@ -4,10 +4,11 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Channel;
+use App\Models\Comment;
 use Illuminate\Support\Arr;
 use App\Traits\WithRelationships;
-use Laravel\Sanctum\HasApiTokens;
 
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,7 +16,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, WithRelationships;
-    protected static $relationships = ['channel'];
+    protected static $relationships = ['channel', 'comments'];
 
     //channel - название метода (при выдаче пользователя, будет тянуть отношение канала)
     // protected $with = ['channel'];
@@ -64,6 +65,11 @@ class User extends Authenticatable
                     $query->where('name', 'like', "%$text%")
                     ->orWhere('email', 'like', "%$text%");
                 });
+    }
+    
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     // in trait

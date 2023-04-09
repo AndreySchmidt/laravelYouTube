@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Enums\Period;
 use App\Models\Video;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 // sudo ./vendor/bin/sail artisan tinker
@@ -14,6 +14,7 @@ class Comment extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected static $relationships = ['video', 'user'];
 
     // слушатель перед сохранением коммента после create
     protected static function booted()
@@ -37,6 +38,16 @@ class Comment extends Model
         return $this->belongsTo(static::class);
     }
 
+    public function scopeFromPeriod($query, ?Period $period)
+    {
+        return $period ? $query->where('created_at', '>=', $period->date()) : $query;
+    }
+
+    public function scopeSearch($query, ?string $text)
+    {
+        return $query->where('text', 'like', "%$text%");
+    }
+    
     public function user()
     {
         return $this->belongsTo(User::class);
