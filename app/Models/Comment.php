@@ -47,6 +47,13 @@ class Comment extends Model
         return $this->belongsTo(Video::class);
     }
 
+    public function isOwndBy(User $user)
+    {
+        // $user->id === $comment->user_id
+        return $this->user_id === $user->id;
+    }
+
+
     // public function replies()
     // {
     //     return $this->hasMany(static::class, 'parent_id');
