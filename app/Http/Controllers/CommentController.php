@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use auth;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class CommentController extends Controller
 {
@@ -30,6 +32,19 @@ class CommentController extends Controller
 
     public function update(Comment $comment, Request $request)
     {
+        // пользователь, который редактирует должен быть тем, кто оставил коммент
+        // if($request->user()->isNot($comment->user))
+        // {
+        //     throw new AuthorizationException();
+        // }
+
+        // другой вариант аналогичной проверки
+        // abort_if($request->user()->isNot($comment->user), 401, 'Unauthorized.');
+        // abort_if($request->user()->isNot($comment->user), Response::HTTP_UNAUTHORIZED, 'Unauthorized.');
+
+        // еще один способ
+        throw_if($request->user()->isNot($comment->user), AuthorizationException::class);
+
         $attr = $request->validate([
             'text' => 'required|string',
         ]);
