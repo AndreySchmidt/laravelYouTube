@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+// sudo ./vendor/bin/sail composer require laravel/sanctum
+
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -22,6 +24,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         auth()->loginUsingId(1);
-        //
     }
 }
