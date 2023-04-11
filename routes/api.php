@@ -32,8 +32,9 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/comments', [App\Http\Controllers\CommentController::class, 'store']);
     Route::put('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'update']);
     Route::delete('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'destroy']);
-});
 
+    Route::delete('/personal-access-tokens/{tokenId}', [App\Http\Controllers\PersonalAccessTokenController::class, 'destroy']);
+});
 
 
 Route::post('/personal-access-tokens', [App\Http\Controllers\PersonalAccessTokenController::class, 'store']);
