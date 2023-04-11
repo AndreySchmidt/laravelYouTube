@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class PersonalAccessTokenController extends Controller
 {
@@ -29,9 +28,8 @@ class PersonalAccessTokenController extends Controller
         return ['token' => $user->createToken($request->device_name)->plainTextToken];
     }
 
-    public function destroy(PersonalAccessToken $token, Request $request)
+    public function destroy(Request $request)
     {
-        $token->delete();
-        // $request->user()->tokens()->where('id', $tokenId)->delete();
+        $request->user()->currentAccessToken()->delete();
     }
 }

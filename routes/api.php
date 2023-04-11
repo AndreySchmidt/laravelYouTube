@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::put('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'update']);
     Route::delete('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'destroy']);
 
-    Route::delete('/personal-access-tokens/{token}', [App\Http\Controllers\PersonalAccessTokenController::class, 'destroy']);
+    Route::delete('/personal-access-tokens', [App\Http\Controllers\PersonalAccessTokenController::class, 'destroy']);
 });
 
 
