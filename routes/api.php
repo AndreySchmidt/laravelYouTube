@@ -26,6 +26,9 @@ Route::get('/users/{user}', [App\Http\Controllers\UserController::class, 'show']
 Route::get('/comments', [App\Http\Controllers\CommentController::class, 'index']);
 Route::get('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'show']);
 
-Route::post('/comments', [App\Http\Controllers\CommentController::class, 'store']);
+Route::post('/comments', [App\Http\Controllers\CommentController::class, 'store'])->middleware('auth:sanctum');
 Route::put('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'update']);
 Route::delete('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'destroy']);
+
+
+Route::post('/personal-access-tokens', [App\Http\Controllers\PersonalAccessTokenController::class, 'store']);
