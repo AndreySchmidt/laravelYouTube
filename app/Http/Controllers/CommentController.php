@@ -23,7 +23,7 @@ class CommentController extends Controller
 
     public function update(Comment $comment, Request $request)
     {
-        Gate::allowIf(fn (User $user) => $comment->isOwndBy($user));
+        Gate::allowIf(fn (User $user) => $comment->isOwndBy($user) && $user->tokenCan('comment:update'));
 
         $attr = $request->validate([
             'text' => 'required|string',
@@ -34,7 +34,7 @@ class CommentController extends Controller
 
     public function destroy(Comment $comment)
     {
-        Gate::allowIf(fn (User $user) => $comment->isOwndBy($user));
+        Gate::allowIf(fn (User $user) => $comment->isOwndBy($user) && $user->tokenCan('comment:delete'));
         
         $comment->delete();
     }
