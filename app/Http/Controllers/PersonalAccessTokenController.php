@@ -1,5 +1,13 @@
 <?php
 
+    // /config/sanctum.php
+    // количество минут годности токена
+    // 'expiration' => 10,
+    // срок годности токена не истекает никогда
+    //->'expiration' => null,
+    // для удаления токенов с истекшим сроком
+    // sudo ./vendor/bin/sail artisan sanctum:prune-expired --hours=0.01
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
