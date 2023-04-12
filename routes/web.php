@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::post('/register', dd(request()));
+
+Route::post('/register', [App\Http\Controllers\Auth\RegisterUserController::class, 'store']);
