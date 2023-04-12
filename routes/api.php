@@ -30,8 +30,12 @@ Route::get('/comments/{comment}', [App\Http\Controllers\CommentController::class
 Route::middleware('auth:sanctum')->group(function(){
     // Route::post('/comments', [App\Http\Controllers\CommentController::class, 'store'])->middleware('auth:sanctum');
     Route::post('/comments', [App\Http\Controllers\CommentController::class, 'store']);
-    Route::put('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'update']);
-    Route::delete('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'destroy']);
+    Route::put('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'update'])->middleware('ability:comment:update');
+    // Route::put('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'update'])->middleware('ability:comment:update,comment:delete');
+    // если одно разрешение для токена ability (или)
+    Route::delete('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'destroy'])->middleware('ability:comment:delete');
+    // если нужен набор разрешений для токена abilities (и)
+    // Route::delete('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'destroy'])->middleware('abilities:comment:delete,comment:update');
 
     Route::delete('/personal-access-tokens', [App\Http\Controllers\PersonalAccessTokenController::class, 'destroy']);
 });
