@@ -9,7 +9,9 @@ use Illuminate\Support\Arr;
 use App\Traits\WithRelationships;
 
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -72,9 +74,10 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
-    // in trait
-    // public function scopeWithRelationships($query, array|string $with)
-    // {
-    //     return $query->with(array_intersect(Arr::wrap($with), static::$relationships));
-    // }
+    protected function password(): Attribute
+    {
+        return Attribute::make(
+            set: fn(string $password) => Hash::make($password),
+        );
+    }
 }
