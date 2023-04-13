@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 // Route::post('/register', dd(request()));
 
-Route::post('/register', [App\Http\Controllers\Auth\RegisterUserController::class, 'store']);
+Route::post('/register', [App\Http\Controllers\Auth\RegisterUserController::class, 'store'])->middleware('guest');
