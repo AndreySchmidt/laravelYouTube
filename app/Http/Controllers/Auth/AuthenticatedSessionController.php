@@ -29,4 +29,13 @@ class AuthenticatedSessionController extends Controller
             'email' => 'Bad email'
         ], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
+
+    public function destroy(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return response()->noContent();// equal to response('', Response::HTTP_NO_CONTENT);
+    }
 }
