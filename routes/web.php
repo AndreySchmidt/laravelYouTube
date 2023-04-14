@@ -19,3 +19,5 @@ Route::post('/register', [App\Http\Controllers\Auth\RegisterUserController::clas
 Route::delete('/delete-account', [App\Http\Controllers\Auth\RegisterUserController::class, 'destroy'])->middleware('auth');
 Route::post('/login', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'store'])->middleware('guest');
 Route::delete('/logout', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])->middleware('auth');
+Route::post('/email/verification-notification', [App\Http\Controllers\Auth\EmailVerificationNotificationController::class, 'store'])->middleware('auth');
+Route::get('/verify-email/{id}/{hash}', App\Http\Controllers\Auth\VerifyEmailController::class)->middleware('auth')->name('verification.verify');
