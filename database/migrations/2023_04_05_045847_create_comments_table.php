@@ -10,6 +10,7 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * sudo ./vendor/bin/sail artisan migrate:fresh --seed
      */
     public function up(): void
     {
@@ -18,8 +19,8 @@ return new class extends Migration
             $table->text('text');
             //cascadeOnDelete при удалении парента будет удалять чаилды
             $table->foreignId('parent_id')->nullable()->references('id')->on('comments')->cascadeOnDelete();
-            $table->foreignIdFor(User::class)->constrained();
-            $table->foreignIdFor(Video::class)->constrained();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Video::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -80,4 +80,9 @@ class User extends Authenticatable
             set: fn(string $password) => Hash::make($password),
         );
     }
+
+    protected static function booted()
+    {
+        static::deleting(fn (User $user) => $user->tokens()->delete());
+    }
 }
