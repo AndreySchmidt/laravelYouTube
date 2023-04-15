@@ -23,3 +23,8 @@ Route::post('/email/verification-notification', [App\Http\Controllers\Auth\Email
     ->middleware(['auth', 'throttle:6,1']);
 Route::get('/verify-email/{id}/{hash}', App\Http\Controllers\Auth\VerifyEmailController::class)
     ->middleware(['auth', 'signed', 'throttle:6,1'])->name('verification.verify');
+
+Route::post('/forgot-password', [App\Http\Controllers\Auth\PasswordResetLinkController::class, 'store'])
+    ->middleware(['guest']);
+Route::post('/reset-password', [App\Http\Controllers\Auth\NewPasswordController::class, 'store'])
+    ->middleware(['guest'])->name('password.reset');
