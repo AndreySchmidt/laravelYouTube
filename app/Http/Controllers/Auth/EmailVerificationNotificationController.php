@@ -13,6 +13,7 @@ class EmailVerificationNotificationController extends Controller
         {
             return response(['message' => 'Email has been verified']);
         }
+        
         $request->user()->sendEmailVerificationNotification();
 
         return response([
