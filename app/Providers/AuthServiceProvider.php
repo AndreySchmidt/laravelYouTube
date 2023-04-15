@@ -7,7 +7,10 @@ namespace App\Providers;
 // sudo ./vendor/bin/sail artisan migrate
 
 // use Illuminate\Support\Facades\Gate;
+
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +28,12 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        VerifyEmail::toMailUsing(function(object $notifiable, string $url){
+            return (new MailMessage)
+            ->subject('email verification')
+            ->line('some string to body')
+            ->action('verifyBtn', $url);
+        });
         // auth()->loginUsingId(1);
     }
 }

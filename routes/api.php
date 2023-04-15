@@ -27,7 +27,7 @@ Route::get('/comments', [App\Http\Controllers\CommentController::class, 'index']
 Route::get('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'show']);
 
 
-Route::middleware('auth:sanctum')->group(function(){
+Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     Route::get('/profile', [App\Http\Controllers\Auth\ProfileController::class, 'show']);
     Route::put('/profile', [App\Http\Controllers\Auth\ProfileController::class, 'update']);
 
